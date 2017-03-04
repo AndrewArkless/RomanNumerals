@@ -36,6 +36,7 @@ class RomanNumeralsSpec extends WordSpecLike with Matchers {
     (500,       "D"),
     (549,       "DXLIX"),
     (550,       "DL"),
+    (900,       "CM"),
     (999,       "CMXCIX"),
     (1000,      "M"),
     (1001,      "MI"),
