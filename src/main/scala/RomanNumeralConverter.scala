@@ -4,7 +4,7 @@ import scala.collection.immutable.{ListMap, SortedMap}
   * Created by User on 04/03/2017.
   */
 object RomanNumeralConverter {
-  val romanNumeralLookup=ListMap(
+  val romanNumeralLookup: ListMap[Int, String] =ListMap(
     1000 -> "M",
     900  -> "CM",
     500  -> "D",
@@ -20,15 +20,25 @@ object RomanNumeralConverter {
     1    -> "I"
   )
   def ArabicToRoman(num: Int)={
-    var result:String=""
+    def start(tally:Int, numerals:ListMap[Int, String],result:String):String= {
+    tally match {
+      case 0 => result
+      case _ => {
+                  val x = helper(tally, numerals, result)
+                  start(x._1, x._2, x._3)
+               }
+  } 
+  }
+    def helper(tally:Int,n:ListMap[Int,String],result:String):(Int,ListMap[Int,String],String)={
 
-    var num1=num
-    for((a,r)<-romanNumeralLookup) {
-      while(num1>=a ) {
-        result=result+r
-        num1=num1-a
-      }
+        if (tally<n.head._1) (tally,n.tail,result)
+        else {
+          helper(tally-n.head._1,n,result+n.head._2)
+        }
     }
-    result
+   start(num,romanNumeralLookup,"")
+
+
+
   }
 }
