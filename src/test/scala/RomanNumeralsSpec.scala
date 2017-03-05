@@ -48,7 +48,9 @@ class RomanNumeralsSpec extends WordSpecLike with Matchers {
 
 
   "Calling ArabicToRoman" should {
-
+    "return Nulla when 0 is passed" in{
+      RomanNumeralConverter.ArabicToRoman(0) shouldBe "Nulla"
+    }
     forAll(numerals) { (arabic: Int, roman: String) =>
       s"return $roman when passed $arabic " in {
         RomanNumeralConverter.ArabicToRoman(arabic) shouldBe roman
