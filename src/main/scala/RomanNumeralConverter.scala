@@ -20,20 +20,21 @@ object RomanNumeralConverter {
     1    -> "I"
   )
   def ArabicToRoman(num: Int)={
-    def start(tally:Int, numerals:ListMap[Int, String],result:String):String= {
-    tally match {
-      case 0 => result
-      case _ => {
-                  val x = helper(tally, numerals, result)
-                  start(x._1, x._2, x._3)
-               }
-  } 
-  }
-    def helper(tally:Int,n:ListMap[Int,String],result:String):(Int,ListMap[Int,String],String)={
 
-        if (tally<n.head._1) (tally,n.tail,result)
+     def start(tally:Int, numerals:ListMap[Int, String],result:String):String= {
+         tally match {
+              case 0 => result
+              case _ => {
+                  val x = helper(tally, numerals.head._1,numerals.head._2, result)
+                  start(x._1, numerals.tail,x._2)
+               }
+          }
+    }
+
+    def helper(tally:Int,arabNumber:Int,romanNumber:String,result:String):(Int,String)={
+        if (tally<arabNumber) (tally,result)
         else {
-          helper(tally-n.head._1,n,result+n.head._2)
+          helper(tally-arabNumber,arabNumber,romanNumber,result+romanNumber)
         }
     }
    start(num,romanNumeralLookup,"")
