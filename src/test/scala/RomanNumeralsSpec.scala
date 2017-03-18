@@ -14,7 +14,7 @@ class RomanNumeralsSpec extends WordSpecLike with Matchers {
     (8,         "VIII"),
     (9,         "IX"),
     (10,        "X"),
-    (11,        "XI"),//second iteration test 11-20
+    (11,        "XI"),
     (12,        "XII"),
     (13,        "XIII"),
     (14,        "XIV"),
@@ -50,6 +50,10 @@ class RomanNumeralsSpec extends WordSpecLike with Matchers {
   "Calling ArabicToRoman" should {
     "return Nulla when 0 is passed" in{
       RomanNumeralConverter.ArabicToRoman(0) shouldBe "Nulla"
+    }
+
+    "return Nulla when negative number is passed" in{
+      RomanNumeralConverter.ArabicToRoman(-1) shouldBe "Nulla"
     }
     forAll(numerals) { (arabic: Int, roman: String) =>
       s"return $roman when passed $arabic " in {
