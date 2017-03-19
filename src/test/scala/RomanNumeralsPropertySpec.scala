@@ -1,21 +1,28 @@
 
-import org.scalatest.{FlatSpec, FunSpec, Matchers, WordSpecLike, _}
 import org.scalacheck.Gen
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
-//class RomanNumeralsSpec extends FlatSpec with WordSpecLike with Matchers    {
+import org.scalatest.{FunSpec, Matchers}
+
 class RomanNumeralsPropertySpec extends FunSpec with Matchers with GeneratorDrivenPropertyChecks {
 
+  /* thousand tests of with random numbers upto 2000 to pass before it can be said to have passed
+  but what is a reasonable range for this????
+  */
+
   implicit override val generatorDrivenConfig = PropertyCheckConfig(minSuccessful = 1000)
+
   val randomNumbers = for (n <- Gen.choose(1, 2000)) yield n
 
   describe("converting from Arab to Roman ") {
     it("Should not contain IIII, XXXX, CCCC") {
+      var c=0;
       forAll(randomNumbers) { (num: Int) => {
         val romanNumerals = RomanNumeralConverter.ArabicToRoman(num)
-        println("HERE" + num + romanNumerals)
+        println(c + " " + num + " " + romanNumerals)
         romanNumerals should not include ("IIII")
         romanNumerals should not include ("XXXX")
         romanNumerals should not include ("CCCC")
+        c=c+1
       }
       }
 
@@ -50,5 +57,36 @@ class RomanNumeralsPropertySpec extends FunSpec with Matchers with GeneratorDriv
 
     }
 
-  }
+    it("The '5' symbols ('V', 'L', and 'D') can never be subtracted.") {
+      forAll(randomNumbers) { (num: Int) => {
+
+        val romanNumerals = RomanNumeralConverter.ArabicToRoman(num)
+
+        val illegalSubtractionsOfFive= List("VX", "VL", "VC", "VM")
+        illegalSubtractionsOfFive.exists(romanNumerals.contains) shouldBe false
+
+        val illegalSubtractionsOfFifty = List("LC", "LD","LM")
+        illegalSubtractionsOfFifty.exists(romanNumerals.contains) shouldBe false
+
+        val illegalSubtractionsOfFiveHundred = List("D")
+        illegalSubtractionsOfFifty.exists(romanNumerals.contains) shouldBe false
+
+      }
+      }
+
+    }
+
+    /*This test requires the use of a non trivial function to check the property
+    this raises the question of how much logic you can put in your tests, without
+    having to write tests which test the tests. In this instance tests have been written
+    for the RomanNumeralTestHelper in RomanNumerallsTestHelperSpec.
+    */
+
+    it("Only one subtraction can be made per numeral .") {
+      forAll(randomNumbers) { (num: Int) => {
+        val romanNumerals = RomanNumeralConverter.ArabicToRoman(num)
+        RomanNumeralTestHelper.oneSubtractionPerNumeral(romanNumerals) shouldBe true}
+      }
+      }
+    }
 }
