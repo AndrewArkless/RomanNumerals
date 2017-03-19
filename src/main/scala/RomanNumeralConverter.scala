@@ -1,4 +1,4 @@
-import scala.collection.immutable.{ListMap, SortedMap}
+import scala.collection.immutable.ListMap
 
 /**
   * Created by User on 04/03/2017.
@@ -22,33 +22,19 @@ object RomanNumeralConverter {
   )
   def ArabicToRoman(num: Int)={
 
-     def start(tally:Int, numerals:ListMap[Int, String],result:String):String= {
-       tally match {
+     def start(remainingValue:Int, numerals:ListMap[Int, String],result:String):String= {
+       remainingValue match {
          case 0 => result
          case _ => {
            val arabicValue = numerals.head._1
            val romanValue = numerals.head._2
-           if (tally < arabicValue) start(tally, numerals.tail, result)
+           if (remainingValue < arabicValue) start(remainingValue, numerals.tail, result)
            else {
-             start(tally  % arabicValue, numerals.tail, result + (romanValue * (tally / arabicValue)))
+             start(remainingValue  % arabicValue, numerals.tail, result + (romanValue * (remainingValue / arabicValue)))
            }
          }
        }
      }
-
-       //    def helper(tally:Int,arabNumber:Int,romanNumber:String,result:String):(Int,String)={
-       //      if (tally<arabNumber) (tally,result)
-       //      else {
-       //        helper(tally-arabNumber,arabNumber,romanNumber,result+romanNumber)
-       //      }
-       //    }
-
-       //    def helperRecursive(tally:Int,arabNumber:Int,romanNumber:String,result:String):(Int,String)={
-       //        if (tally<arabNumber) (tally,result)
-       //        else {<
-       //          helper(tally-arabNumber,arabNumber,romanNumber,result+romanNumber)
-       //        }
-       //    }
        if (num<=0) Nulla
        else start(num, romanNumeralLookup, "")
 
