@@ -93,5 +93,20 @@ class RomanNumeralsPropertySpec extends FunSpec with Matchers with GeneratorDriv
         RomanNumeralTestHelper.oneSubtractionPerNumeral(romanNumerals) shouldBe true}
       }
       }
+
+    it("must meet a regular expression") {
+      forAll(randomNumbers) { (num: Int) => {
+
+        //RegEx lifted from http://bucktownbell.com/?p=3825
+        val numeralRegEx="^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$"
+
+        val romanNumerals = RomanNumeralConverter.ArabicToRoman(num)
+        romanNumerals.matches(numeralRegEx) shouldBe true
+      }
+      }
     }
+    }
+
+
+
 }
