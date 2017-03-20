@@ -15,7 +15,7 @@ class RomanNumeralsPropertySpec extends FunSpec with Matchers with GeneratorDriv
 
   describe("converting from Arab to Roman ") {
     it("Should not contain IIII, XXXX, CCCC") {
-      var c=0;
+      var c=0 // just a counter to demonstrate 1000 numbers are generated
       forAll(randomNumbers) { (num: Int) => {
         val romanNumerals = RomanNumeralConverter.ArabicToRoman(num)
         println(c + " " + num + " " + romanNumerals)
@@ -41,6 +41,12 @@ class RomanNumeralsPropertySpec extends FunSpec with Matchers with GeneratorDriv
       }
     }
     it("The '1' symbols ('I', 'X', and 'C') can only be subtracted from the 2 next highest values ('IV' and 'IX', 'XL' and 'XC', 'CD' and 'CM')") {
+     /*
+     kata rule states that C can only be subtracted from next 2 highest values which D and  M but then there is no higher value
+     so not sure what that means in this context XMM so not implemented
+      */
+
+
       forAll(randomNumbers) { (num: Int) => {
 
         val romanNumerals = RomanNumeralConverter.ArabicToRoman(num)
@@ -68,9 +74,8 @@ class RomanNumeralsPropertySpec extends FunSpec with Matchers with GeneratorDriv
         val illegalSubtractionsOfFifty = List("LC", "LD","LM")
         illegalSubtractionsOfFifty.exists(romanNumerals.contains) shouldBe false
 
-        val illegalSubtractionsOfFiveHundred = List("D")
-        illegalSubtractionsOfFifty.exists(romanNumerals.contains) shouldBe false
-
+        val illegalSubtractionsOfFiveHundred = List("DM")
+        illegalSubtractionsOfFiveHundred.exists(romanNumerals.contains) shouldBe false
       }
       }
 
