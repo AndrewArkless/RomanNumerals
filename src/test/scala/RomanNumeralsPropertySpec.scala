@@ -98,7 +98,7 @@ class RomanNumeralsPropertySpec extends FunSpec with Matchers with GeneratorDriv
       forAll(randomNumbers) { (num: Int) => {
 
         /*RegEx lifted from http://bucktownbell.com/?p=3825
-          does this need testing to????
+          does this need testing to ????
          */
         val numeralRegEx="^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$"
 
